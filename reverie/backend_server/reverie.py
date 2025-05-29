@@ -422,6 +422,7 @@ class ReverieServer:
     OUTPUT
       None
     """
+    
     print ("Note: The agents in this simulation package are computational")
     print ("constructs powered by generative agents architecture and LLM. We")
     print ("clarify that these agents lack human-like agency, consciousness,")
@@ -429,6 +430,10 @@ class ReverieServer:
 
     # <sim_folder> points to the current simulation folder.
     sim_folder = f"{fs_storage}/{self.sim_code}"
+    
+    # ★ フォルダをここで必ず作る ★
+    os.makedirs(os.path.join(sim_folder, "movement"), exist_ok=True)
+    os.makedirs(os.path.join(sim_folder, "temp_storage"), exist_ok=True)
 
     while True: 
       sim_command = input("Enter option: ")

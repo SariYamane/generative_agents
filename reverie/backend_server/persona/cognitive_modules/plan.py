@@ -139,6 +139,9 @@ def generate_hourly_schedule(persona, wake_up_hour):
 
 
 def generate_task_decomp(persona, task, duration): 
+  # ★追加: 3 時間(180 分)より長いタスクは切り詰める
+  duration = max(5, min(duration, 180))
+  
   """
   A few shot decomposition of a task given the task description 
 
@@ -495,6 +498,13 @@ def _long_term_planning(persona, new_day):
                                                               wake_up_hour)
   persona.scratch.f_daily_schedule_hourly_org = (persona.scratch
                                                    .f_daily_schedule[:])
+  
+  # ★ ここから追加 ──────────────────────────────
+  # any block longer than 3 h (180 min) is capped at 180 min
+  for idx, (desc, dur) in enumerate(persona.scratch.f_daily_schedule):
+    if dur > 180:
+      persona.scratch.f_daily_schedule[idx][1] = 180
+  # ─────────────────────────────────────────────
 
 
   # Added March 4 -- adding plan to the memory.

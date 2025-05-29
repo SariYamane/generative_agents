@@ -1,19 +1,25 @@
-html,
-body,
-#game-container {
+/* 高さを連鎖させる -----------------------------------------------------------------*/
+html, body {              /* 最上位に高さを付ける */
+  height: 100%;
   margin: 0;
-  padding: 0;
 }
 
+/* Bootstrap のラッパーを使っていれば */
+.container, .row, .col {  /* いなければ無視してOK */
+  height: 100%;
+}
+
+/* 実際にマップを入れている div */
 #game-container {
-  /*min-width: 100vw;
-  min-height: 100vh;*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100vw;
+  height: 100%;           /* ここは 100vh でも可 */
+  overflow: auto;
+  box-sizing: border-box;
 }
 
-#game-container>canvas {
-  border-radius: 5px;
+/* キャンバスを縮小表示したいなら任意で */
+#game-container > canvas {
+  transform: scale(0.6);
+  transform-origin: top left;
+  image-rendering: pixelated;
 }
-
