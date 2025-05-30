@@ -45,8 +45,12 @@
 	// Configuration meant to be passed to the main Phaser game instance. 
 	const config = {
 	  type: Phaser.AUTO,
-	  width: 1500,
-	  height: 800,
+	  width: 4480,
+	  height: 3200,
+	  scale: {
+		mode: Phaser.Scale.FIT,
+		autoCenter: Phaser.Scale.CENTER_BOTH
+	  },
 	  parent: "game-container",
 	  pixelArt: true,
 	  physics: {
@@ -274,6 +278,8 @@
 	  const camera = this.cameras.main;
 	  camera.startFollow(player);
 	  camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+	  camera.setZoom(1);
+	  camera.roundPixels = true;
 	  cursors = this.input.keyboard.createCursorKeys();
 
 	  // *** SET UP PERSONAS *** 
@@ -326,6 +332,20 @@
 	    frames: anims.generateFrameNames("atlas", { prefix: "misa-back-walk.", start: 0, end: 3, zeroPad: 3 }),
 	    frameRate: 4,
 	    repeat: -1 });
+		
+		const canvas = this.sys.game.canvas;
+		let zoom = 1;
+
+		//マウスホイールでズーム
+		this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
+			const Z_STEP = 0.1;
+			const Z_MIN = 0.25;
+			const Z_MAX = 1.5;
+
+			zoom = Phaser.Math.Clamp(zoom + (deltaY > 0 ? -Z_STEP : Z_STEP), Z_MIN, Z_MAX);
+
+			canvas.style.transform = `scale(${zoom})`;
+		});
 	}
 
 
